@@ -1,8 +1,22 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'calculator.dart';
+import 'driver_search.dart';
 
 void main() {
-  runApp(const MyApp());
+  HttpOverrides.global = MyHttpOverrides();
+  runApp(
+    const MyApp(),
+  );
+}
+
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+  }
 }
 
 class MyApp extends StatelessWidget {
@@ -12,6 +26,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -42,11 +57,28 @@ class _MyHomePageState extends State<MyHomePage> {
             ElevatedButton(
               // style: style,
               onPressed: () {
-                print('You click calculator');
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const Calculator()),
+                );
+              },
+              child: const Text('Caculator'),
+            ),
+            ElevatedButton(
+              // style: style,
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const FindDriver()));
+              },
+              child: const Text('Find driver'),
+            ),
+            ElevatedButton(
+              // style: style,
+              onPressed: () {
                 Navigator.of(context).push(
                     MaterialPageRoute(builder: (context) => Calculator()));
               },
-              child: const Text('Caculator'),
+              child: const Text('List Driver'),
             ),
           ],
         ),

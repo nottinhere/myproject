@@ -8,15 +8,22 @@ class Calculator extends StatefulWidget {
 }
 
 class _CalculatorState extends State<Calculator> {
-  int data1 = 0;
-  int data2 = 0;
-  int resultPlus = 0;
+  double data1 = 0;
+  double data2 = 0;
+  double resultPlus = 0;
+  String dropdownValue = '+';
 
   Future<void> plusData() async {
+    print('dropdownValue >> $dropdownValue');
     setState(() {
-      resultPlus = data1 + data2;
+      if (dropdownValue == '+')
+        resultPlus = data1 + data2;
+      else if (dropdownValue == '-')
+        resultPlus = data1 - data2;
+      else if (dropdownValue == '*')
+        resultPlus = data1 * data2;
+      else if (dropdownValue == '/') resultPlus = data1 / data2;
     });
-    print('$data1 + $data2 = $resultPlus');
   }
 
   Widget formData() {
@@ -32,9 +39,31 @@ class _CalculatorState extends State<Calculator> {
           ),
           onChanged: (val) {
             setState(() {
-              data1 = int.parse(val);
+              data1 = double.parse(val);
             });
           },
+        ),
+        DropdownButton<String>(
+          value: dropdownValue,
+          icon: const Icon(Icons.arrow_downward),
+          elevation: 16,
+          style: const TextStyle(color: Colors.deepPurple),
+          underline: Container(
+            height: 2,
+            color: Colors.deepPurpleAccent,
+          ),
+          onChanged: (String? newValue) {
+            setState(() {
+              dropdownValue = newValue!;
+            });
+          },
+          items: <String>['+', '-', '*', '/']
+              .map<DropdownMenuItem<String>>((String value) {
+            return DropdownMenuItem<String>(
+              value: value,
+              child: Text(value),
+            );
+          }).toList(),
         ),
         TextFormField(
           decoration: const InputDecoration(
@@ -43,7 +72,7 @@ class _CalculatorState extends State<Calculator> {
             labelText: 'Data two *',
           ),
           onChanged: (val) {
-            data2 = int.parse(val);
+            data2 = double.parse(val);
           },
         ),
         ElevatedButton(
@@ -65,19 +94,29 @@ class _CalculatorState extends State<Calculator> {
     );
   }
 
+  Widget backBTN() {
+    return ElevatedButton(
+      // Within the SecondScreen widget
+      onPressed: () {
+        // Navigate back to the first screen by popping the current route
+        // off the stack.
+        Navigator.pop(context);
+      },
+      child: const Text('Go back!'),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('STPW checkin'),
+          title: const Text('Calculator'),
         ),
         body: SizedBox(
           child: Column(
-            children: [
-              formData(),
-              resultadd(),
-            ],
+            children: [formData(), resultadd(), backBTN()],
           ),
         ),
       ),
