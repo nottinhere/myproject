@@ -1,7 +1,8 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'calculator.dart';
-import 'driver_search.dart';
+import 'package:myproject/calculator.dart';
+import 'package:myproject/driver_search.dart';
+import 'package:myproject/driver_list.dart';
 
 void main() {
   HttpOverrides.global = MyHttpOverrides();
@@ -57,26 +58,33 @@ class _MyHomePageState extends State<MyHomePage> {
             ElevatedButton(
               // style: style,
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const Calculator()),
-                );
+                MaterialPageRoute materialPageRoute =
+                    MaterialPageRoute(builder: (BuildContext buildContext) {
+                  return Calculator();
+                });
+                Navigator.of(context).push(materialPageRoute);
               },
               child: const Text('Caculator'),
             ),
             ElevatedButton(
               // style: style,
               onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const FindDriver()));
+                MaterialPageRoute materialPageRoute =
+                    MaterialPageRoute(builder: (BuildContext buildContext) {
+                  return FindDriver();
+                });
+                Navigator.of(context).push(materialPageRoute);
               },
               child: const Text('Find driver'),
             ),
             ElevatedButton(
               // style: style,
               onPressed: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => Calculator()));
+                MaterialPageRoute materialPageRoute =
+                    MaterialPageRoute(builder: (BuildContext buildContext) {
+                  return ListDriver();
+                });
+                Navigator.of(context).push(materialPageRoute);
               },
               child: const Text('List Driver'),
             ),

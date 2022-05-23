@@ -19,22 +19,19 @@ class _FindDriverState extends State<FindDriver> {
 
   @override
   Future<void> findDriver() async {
-    print('txtID >> $txtID');
+    // print('txtID >> $txtID');
     String url =
-        'https://www.vaiwits.com/stpwcheckin/api/json_data_select_staff.php?userID=$txtID';
-    // print('url = $url');
+        'https://www.vaiwits.com/stpwcheckin/api/json_data_select_staff.php?memberID=$txtID';
+    print('url = $url');
     http.Response response = await http.get(Uri.parse(url));
     var result = json.decode(response.body);
+
     var item = result['data'];
-
-    StaffModel dataStaff = StaffModel.fromJson(item);
-    String? personName = dataStaff.data?.personName;
-
-    print('item = $dataStaff');
+    print('item = $item');
 
     setState(() {
-      print('item = $personName');
-      driverName = personName;
+      dataStaff = StaffModel.fromJson(item);
+      driverName = dataStaff?.subject.toString();
     });
   }
 
@@ -67,6 +64,7 @@ class _FindDriverState extends State<FindDriver> {
   }
 
   Widget resultData() {
+    // print('driverName>> $driverName');
     return Container(
       child: Card(
         child: Text('driverName >> $driverName'),

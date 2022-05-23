@@ -1,28 +1,4 @@
 class StaffModel {
-  int? status;
-  String? message;
-  Data? data;
-
-  StaffModel({this.status, this.message, this.data});
-
-  StaffModel.fromJson(Map<String, dynamic> json) {
-    status = json['status'];
-    message = json['message'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
-    data['message'] = this.message;
-    if (this.data != null) {
-      data['data'] = this.data!.toJson();
-    }
-    return data;
-  }
-}
-
-class Data {
   int? id;
   String? code;
   String? user;
@@ -38,7 +14,7 @@ class Data {
   String? timestartwork;
   String? lastlogin;
 
-  Data(
+  StaffModel(
       {this.id,
       this.code,
       this.user,
@@ -54,7 +30,7 @@ class Data {
       this.timestartwork,
       this.lastlogin});
 
-  Data.fromJson(Map<String, dynamic> json) {
+  StaffModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     code = json['code'];
     user = json['user'];
