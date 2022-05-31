@@ -40,7 +40,7 @@ class _driverDetailState extends State<driverDetail> {
     memID = currentstaffModel?.id.toString();
     String url =
         'https://www.vaiwits.com/stpwcheckin/api/json_data_checkin_history.php?memberID=$memID';
-    // print('url = $url');
+    print('url = $url');
     http.Response response = await http.get(Uri.parse(url));
     var result = json.decode(response.body);
 
@@ -61,12 +61,12 @@ class _driverDetailState extends State<driverDetail> {
     memID = currentstaffModel?.id.toString();
     String url =
         'https://www.vaiwits.com/stpwcheckin/api/json_data_select_staff.php?memberID=$memID';
-    print('url = $url');
+    // print('url = $url');
     http.Response response = await http.get(Uri.parse(url));
     var result = json.decode(response.body);
 
     var item = result['data'];
-    print('item = $item');
+    // print('item = $item');
 
     setState(() {
       dataStaff = StaffModel.fromJson(item);
@@ -80,30 +80,23 @@ class _driverDetailState extends State<driverDetail> {
         itemCount: checkinAllModels.length,
         itemBuilder: (BuildContext buildContext, int index) {
           return GestureDetector(
-            child: Container(
-              child: Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
+            child: Card(
+              child: Column(
+                children: [
+                  Row(
                     children: [
-                      Row(
-                        children: [
-                          Text('(${checkinAllModels[index].sqindate!}) '),
-                          Text(
-                              'Time : ${checkinAllModels[index].timecheck!} | '),
-                          Text(
-                              'Dis : ${checkinAllModels[index].dpmformpoint!} '),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Text(checkinAllModels[index].sod! + ' | '),
-                          Text(checkinAllModels[index].siv!),
-                        ],
-                      )
+                      Text('(${checkinAllModels[index].sqindate!}) '),
+                      Text('Time : ${checkinAllModels[index].timecheck!} | '),
+                      Text('Dis : ${checkinAllModels[index].dpmformpoint!} '),
                     ],
                   ),
-                ),
+                  Row(
+                    children: [
+                      Text(checkinAllModels[index].sod! + ' | '),
+                      Text(checkinAllModels[index].siv!),
+                    ],
+                  )
+                ],
               ),
             ),
           );
@@ -112,13 +105,39 @@ class _driverDetailState extends State<driverDetail> {
     );
   }
 
+  // Widget showData() {
+  //   // print('driverName>> $driverName');
+  //   return Expanded(
+  //     child: ListView.builder(
+  //       itemCount: checkinAllModels.length,
+  //       itemBuilder: (BuildContext buildContext, int index) {
+  //         return GestureDetector(
+  //           child: Container(
+  //             child: Card(
+  //               child: Padding(
+  //                 padding: const EdgeInsets.all(8.0),
+  //                 child: Text(checkinAllModels[index].timecheck!),
+  //               ),
+  //             ),
+  //           ),
+  //         );
+  //       },
+  //     ),
+  //   );
+  // }
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(driverName!),
+        title: Text(driverName! + '( ${checkinAllModels.length} )'),
       ),
       body: SizedBox(
-        child: checkinList(),
+        child: Column(
+          children: [
+            checkinList(),
+          ],
+        ),
+        // child: showData(), // checkinList(),
       ),
     );
   }
